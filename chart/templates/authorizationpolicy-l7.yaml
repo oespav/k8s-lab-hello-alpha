@@ -17,5 +17,15 @@ spec:
       name: waypoint
   action: ALLOW
   rules:
-    # TODO(human): which callers may make which requests through the waypoint?
+    # The traffic console may only read the greeting: GET /hello.
+    # Anything else through the waypoint (other callers, other paths such as
+    # /health, other methods) gets HTTP 403.
+    - from:
+        - source:
+            principals:
+              - "cluster.local/ns/traffic-console/sa/default"
+      to:
+        - operation:
+            methods: ["GET"]
+            paths: ["/hello"]
 {{- end }}

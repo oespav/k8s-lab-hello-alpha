@@ -30,3 +30,6 @@ authorizationPolicy:
 
 meshRoute:
   enabled: true
+
+authorizationPolicyL7:
+  enabled: true
