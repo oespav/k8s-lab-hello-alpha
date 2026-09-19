@@ -24,6 +24,7 @@ spec:
         - source:
             principals:
               - "cluster.local/ns/traffic-console/sa/default"
+              - "cluster.local/ns/{{ .Release.Namespace }}/sa/waypoint"
       to:
         - operation:
             methods: ["GET"]
