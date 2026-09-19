@@ -15,5 +15,8 @@ spec:
       app: {{ include "helloworld.fullname" . }}
   action: ALLOW
   rules:
-    # TODO(human): list the callers hello-alpha should accept.
+    - from:
+      - source:
+          principals:
+            - "cluster.local/ns/infra-gw/sa/public-istio"
 {{- end }}

@@ -24,3 +24,6 @@ route:
     name: x-canary
     value: "true"
     version: v2
+
+authorizationPolicy:
+  enabled: true
