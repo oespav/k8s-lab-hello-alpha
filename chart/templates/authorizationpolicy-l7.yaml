@@ -27,5 +27,8 @@ spec:
       to:
         - operation:
             methods: ["GET"]
+            paths: ["/hello", "/health"]
+        - operation:
+            methods: ["POST"]
             paths: ["/hello"]
 {{- end }}
