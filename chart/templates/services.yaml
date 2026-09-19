@@ -8,6 +8,9 @@ metadata:
   labels:
     {{- include "helloworld.labels" $ | nindent 4 }}
     version: {{ $version }}
+    {{- if .Values.ingressUseWaypoint.enabled }}
+    istio.io/ingress-use-waypoint: "true"
+    {{- end }}
 spec:
   selector:
     {{- include "helloworld.selectorLabels" (dict "root" $ "version" $version) | nindent 4 }}
