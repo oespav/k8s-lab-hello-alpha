@@ -1,0 +1,26 @@
+# hello-alpha in the lab cluster. Team Alpha owns this file:
+# change weights here, commit, push - Argo CD rolls it out.
+versions:
+  v1:
+    image: docker.io/istio/examples-helloworld-v1:1.0
+    replicas: 1
+    weight: 80
+  v2:
+    image: docker.io/istio/examples-helloworld-v2:1.0
+    replicas: 1
+    weight: 20
+
+gateway:
+  name: public
+  namespace: infra-gw
+  sectionName: https
+
+route:
+  hostnames:
+    - hello.example.com
+  pathPrefix: /hello
+  canaryHeader:
+    enabled: true
+    name: x-canary
+    value: "true"
+    version: v2
