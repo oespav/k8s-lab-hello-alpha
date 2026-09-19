@@ -19,4 +19,8 @@ spec:
       - source:
           principals:
             - "cluster.local/ns/infra-gw/sa/public-istio"
+            # Traffic routed through this namespace's waypoint arrives with the
+            # waypoint's identity. The waypoint's L7 policy
+            # (authorizationpolicy-l7.yaml) has already checked the real caller.
+            - "cluster.local/ns/{{ .Release.Namespace }}/sa/waypoint"
 {{- end }}

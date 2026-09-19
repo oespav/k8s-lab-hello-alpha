@@ -27,3 +27,6 @@ route:
 
 authorizationPolicy:
   enabled: true
+
+meshRoute:
+  enabled: true

@@ -1,0 +1,21 @@
+{{- if .Values.authorizationPolicyL7.enabled }}
+# L7 policy, enforced by the namespace waypoint (Envoy) for every request that
+# goes through it, to any team-alpha Service. Unlike the L4 policy, the
+# waypoint sees the ORIGINAL caller's identity and the HTTP request, so rules
+# can combine who (from.source.principals) with what (to.operation.methods /
+# paths). A request no rule allows gets HTTP 403 "RBAC: access denied".
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ include "helloworld.fullname" . }}-l7
+  labels:
+    {{- include "helloworld.labels" . | nindent 4 }}
+spec:
+  targetRefs:
+    - kind: Gateway
+      group: gateway.networking.k8s.io
+      name: waypoint
+  action: ALLOW
+  rules:
+    # TODO(human): which callers may make which requests through the waypoint?
+{{- end }}
