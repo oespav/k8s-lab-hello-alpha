@@ -9,6 +9,9 @@ metadata:
   name: {{ $fullname }}
   labels:
     {{- include "helloworld.labels" . | nindent 4 }}
+    {{- if .Values.ingressUseWaypoint.enabled }}
+    istio.io/ingress-use-waypoint: "true"
+    {{- end }}
 spec:
   parentRefs:
     - name: {{ required "gateway.name is required" .Values.gateway.name }}

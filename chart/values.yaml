@@ -65,3 +65,6 @@ meshRoute:
 # no matching rule answers every request through the waypoint with 403.
 authorizationPolicyL7:
   enabled: false
+
+ingressUseWaypoint:
+  enabled: false

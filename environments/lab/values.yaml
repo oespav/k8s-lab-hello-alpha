@@ -33,3 +33,6 @@ meshRoute:
 
 authorizationPolicyL7:
   enabled: true
+
+ingressUseWaypoint:
+  enabled: true
