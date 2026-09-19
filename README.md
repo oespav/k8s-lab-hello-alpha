@@ -2,7 +2,7 @@
 
 Owned by **team-alpha**. A multi-version helloworld service, deployed by Argo CD
 from this repo into namespace `team-alpha` and exposed at
-`https://hello.example.com:8443/hello` (lab edge LB port) through the platform's shared `public` gateway.
+`https://hello.apps.localhost:8443/hello` (lab edge LB port) through the platform's shared `public` gateway.
 
 ## Layout
 

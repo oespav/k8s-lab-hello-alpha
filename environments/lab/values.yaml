@@ -17,7 +17,7 @@ gateway:
 
 route:
   hostnames:
-    - hello.example.com
+    - hello.apps.localhost
   pathPrefix: /hello
   canaryHeader:
     enabled: true
