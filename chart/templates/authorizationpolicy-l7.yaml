@@ -29,7 +29,7 @@ spec:
       to:
         - operation:
             methods: ["GET"]
-            paths: ["/hello", "/health"]
+            paths: ["/hello*", "/health"]
         - operation:
             methods: ["POST"]
             paths: ["/hello"]
