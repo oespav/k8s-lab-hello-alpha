@@ -53,5 +53,5 @@ route:
 # Off by default: once an ALLOW policy selects the pods, every caller that
 # no rule matches is refused.
 authorizationPolicy:
-  enabled: true
+  enabled: false
 
