@@ -1,8 +1,15 @@
 {{- if .Values.authorizationPolicy.enabled }}
+{{- if not .Values.authorizationPolicy.principals }}
+{{- fail "authorizationPolicy.enabled=true requires a non-empty authorizationPolicy.principals list: an ALLOW policy that selects these pods with no matching rule refuses EVERY caller." }}
+{{- end }}
 # Who may call hello-alpha (both versions). ztunnel checks the caller's mesh
 # identity on every new connection; callers no rule matches are refused.
 # A principal is the caller's SPIFFE identity without "spiffe://", e.g.
 # "cluster.local/ns/<namespace>/sa/<serviceaccount>".
+#
+# The list is values-driven because the right answer depends on the traffic
+# path: with a waypoint, callers arrive wearing the WAYPOINT's identity;
+# without one, they arrive as themselves.
 apiVersion: security.istio.io/v1
 kind: AuthorizationPolicy
 metadata:
@@ -18,9 +25,7 @@ spec:
     - from:
       - source:
           principals:
-            - "cluster.local/ns/infra-gw/sa/public-istio"
-            # Traffic routed through this namespace's waypoint arrives with the
-            # waypoint's identity. The waypoint's L7 policy
-            # (authorizationpolicy-l7.yaml) has already checked the real caller.
-            - "cluster.local/ns/{{ .Release.Namespace }}/sa/waypoint"
+            {{- range .Values.authorizationPolicy.principals }}
+            - {{ tpl . $ | quote }}
+            {{- end }}
 {{- end }}
