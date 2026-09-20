@@ -8,9 +8,6 @@ metadata:
   labels:
     {{- include "helloworld.labels" $ | nindent 4 }}
     version: {{ $version }}
-    {{- if $.Values.ingressUseWaypoint.enabled }}
-    istio.io/ingress-use-waypoint: "true"
-    {{- end }}
 spec:
   selector:
     {{- include "helloworld.selectorLabels" (dict "root" $ "version" $version) | nindent 4 }}
@@ -20,9 +17,9 @@ spec:
       targetPort: http
 {{- end }}
 ---
-# Umbrella Service covering every version: the address east-west callers
-# use. Its traffic goes through the namespace waypoint, where the GAMMA
-# HTTPRoute (meshroute.yaml) splits requests across versions by weight.
+# Umbrella Service covering every version: one address for in-cluster
+# callers. Weighted routing lives in the HTTPRoute at the gateway, so a
+# caller that uses this Service directly gets plain round-robin.
 apiVersion: v1
 kind: Service
 metadata:

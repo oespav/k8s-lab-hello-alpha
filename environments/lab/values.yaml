@@ -25,14 +25,5 @@ route:
     value: "true"
     version: v2
 
-authorizationPolicy:
-  enabled: true
-
-meshRoute:
-  enabled: true
-
-authorizationPolicyL7:
-  enabled: true
-
 ingressUseWaypoint:
   enabled: true

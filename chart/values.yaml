@@ -48,23 +48,5 @@ route:
     value: "true"
     version: v2
 
-# Who may call this app: an Istio AuthorizationPolicy, enforced by ztunnel
-# at L4 (caller identity + port; no paths or methods without a waypoint).
-# Off by default: once an ALLOW policy selects the pods, every caller that
-# no rule matches is refused.
-authorizationPolicy:
-  enabled: false
-
-# East-west routing (GAMMA): an HTTPRoute on the umbrella Service, implemented
-# by the namespace waypoint. Needs a waypoint (istio.io/use-waypoint).
-meshRoute:
-  enabled: false
-
-# L7 policy enforced by the namespace waypoint: which caller may use which
-# HTTP methods/paths. Needs a waypoint. Off by default; an ALLOW policy with
-# no matching rule answers every request through the waypoint with 403.
-authorizationPolicyL7:
-  enabled: false
-
 ingressUseWaypoint:
   enabled: false
