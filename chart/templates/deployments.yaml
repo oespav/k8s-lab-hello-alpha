@@ -9,7 +9,11 @@ metadata:
     {{- include "helloworld.labels" $ | nindent 4 }}
     version: {{ $version }}
 spec:
+  {{- if not $.Values.autoscaling.enabled }}
+  # Omitted when autoscaling is on, so the HPA owns the replica count
+  # (otherwise Argo CD and the HPA would fight over this field).
   replicas: {{ $cfg.replicas | default 1 }}
+  {{- end }}
   selector:
     matchLabels:
       {{- include "helloworld.selectorLabels" (dict "root" $ "version" $version) | nindent 6 }}

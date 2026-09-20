@@ -25,5 +25,18 @@ route:
     value: "true"
     version: v2
 
-ingressUseWaypoint:
+# Autoscale on CPU. requests.cpu is raised from the chart default (50m) so the
+# 75 % target means ~225m per pod: the app tops out near one core, so a busy
+# pod sits well above the target and the HPA adds replicas.
+resources:
+  requests:
+    cpu: 300m
+    memory: 64Mi
+  limits:
+    memory: 128Mi
+
+autoscaling:
   enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 75

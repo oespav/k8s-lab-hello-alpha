@@ -50,3 +50,13 @@ route:
 
 ingressUseWaypoint:
   enabled: false
+
+# Horizontal autoscaling per version. Needs metrics-server (the platform
+# installs it). When on, the chart stops setting replicas so the HPA owns it.
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  # Percentage of resources.requests.cpu, so that request must be realistic:
+  # too small a request makes every pod look overloaded immediately.
+  targetCPUUtilizationPercentage: 75
