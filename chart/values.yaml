@@ -54,6 +54,10 @@ route:
 # no rule matches is refused.
 authorizationPolicy:
   enabled: false
+  # SPIFFE identities allowed to open a connection, without the "spiffe://"
+  # prefix. Entries are templated, so "{{ .Release.Namespace }}" works.
+  # Empty + enabled is a deploy-time error: it would deny every caller.
+  principals: []
 
 # East-west routing (GAMMA): an HTTPRoute on the umbrella Service, implemented
 # by the namespace waypoint. Needs a waypoint (istio.io/use-waypoint).

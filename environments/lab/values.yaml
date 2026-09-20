@@ -27,15 +27,37 @@ route:
 
 authorizationPolicy:
   enabled: true
+  # Who may open a connection to hello-alpha's pods. ztunnel enforces this at
+  # the pod, so it applies no matter how the caller addressed us -- Service
+  # VIP or pod IP. An ALLOW policy refuses every caller no entry matches.
+  #
+  # Callers on this branch (no waypoint, so everyone arrives as themselves):
+  #   the public gateway    cluster.local/ns/infra-gw/sa/public-istio
+  #   the traffic console   cluster.local/ns/traffic-console/sa/default
+  #   hello-alpha's own SA  cluster.local/ns/{{ .Release.Namespace }}/sa/default
+  principals:
+    - "cluster.local/ns/infra-gw/sa/public-istio"
+    - "cluster.local/ns/traffic-console/sa/default"
+    - "cluster.local/ns/{{ .Release.Namespace }}/sa/default"
 
+# --- no-waypoint experiment -------------------------------------------------
+# team-alpha's namespace no longer has a waypoint, so the three features that
+# depend on one are off. Encryption and identity are unaffected: those come
+# from ztunnel via the ambient label, not from the waypoint. The L4 policy
+# below stays on -- ztunnel enforces it at the pod, so it costs no proxy and
+# still covers callers that address a pod IP directly.
+#   meshRoute            east-west 80/20 split (GAMMA)  -> kube-proxy round-robin
+#   authorizationPolicyL7  method/path rules (403s)      -> gone, L4 only
+#   ingressUseWaypoint   send gateway traffic via waypoint -> straight to pods
+# ---------------------------------------------------------------------------
 meshRoute:
-  enabled: true
+  enabled: false
 
 authorizationPolicyL7:
-  enabled: true
+  enabled: false
 
 ingressUseWaypoint:
-  enabled: true
+  enabled: false
 
 # Autoscale on CPU. requests.cpu is raised from the chart default (50m) so the
 # 75 % target means ~225m per pod: the app tops out near one core, so a busy
