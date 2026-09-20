@@ -18,7 +18,9 @@ spec:
     - from:
       - source:
           principals:
-            - "cluster.local/ns/infra-gw/sa/public-istio"
+            # The public gateway is agentgateway in edge-gw; its proxy runs
+            # as the ServiceAccount named after the Gateway.
+            - "cluster.local/ns/edge-gw/sa/public"
             # Traffic routed through this namespace's waypoint arrives with the
             # waypoint's identity. The waypoint's L7 policy
             # (authorizationpolicy-l7.yaml) has already checked the real caller.

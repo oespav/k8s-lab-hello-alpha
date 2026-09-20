@@ -25,7 +25,7 @@ spec:
             principals:
               - "cluster.local/ns/traffic-console/sa/default"
               - "cluster.local/ns/{{ .Release.Namespace }}/sa/waypoint"
-              - "cluster.local/ns/infra-gw/sa/public-istio"
+              - "cluster.local/ns/edge-gw/sa/public"
       to:
         - operation:
             methods: ["GET"]

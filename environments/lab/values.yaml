@@ -12,7 +12,7 @@ versions:
 
 gateway:
   name: public
-  namespace: infra-gw
+  namespace: edge-gw      # the public gateway moved to agentgateway in edge-gw
   sectionName: https
 
 route:
